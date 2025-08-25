@@ -4,7 +4,7 @@
 This project explores whether a Marvel character’s physical stats can help predict if they’re **good** or **bad**. It walks through the complete data science workflow — from cleaning and preprocessing data all the way to training and evaluating a machine learning model.
 
 ## Dataset
-The dataset comes from Kaggle’s *Marvel Characters Info*. It includes character details like height, weight, publisher, and alignment.
+The dataset comes from Kaggle. It includes character details like height, weight, publisher, and alignment.
 
 ## Process Workflow
 1. **Data Loading & Initial Cleaning**  
