@@ -1,35 +1,54 @@
 # Marvel Character Alignment Predictor
 
-## Project Goal
-This project explores whether a Marvel character’s physical stats can help predict if they’re **good** or **bad**. It walks through the complete data science workflow — from cleaning and preprocessing data all the way to training and evaluating a machine learning model.
+This project demonstrates the power of **feature engineering** in machine learning. It starts by building a baseline model to predict if a Marvel character is 'good' or 'bad' using only their physical stats. It then enriches the dataset with biographical information scraped from Wikipedia to create a significantly more accurate final model.
 
-## Dataset
-The dataset comes from Kaggle. It includes character details like height, weight, publisher, and alignment.
+## The Impact of Feature Engineering: A Tale of Two Models
+
+The success of this project is best shown by comparing the baseline model to the final, enriched model:
+
+#### 1. Baseline Model
+-   **Features Used:** `Height`, `Weight`
+-   **Accuracy:** **62.67%**
+
+#### 2. Enriched Model
+-   **Features Used:** `Height`, `Weight`, plus `Hero_Score` and `Villain_Score` (engineered from Wikipedia biographies)
+-   **Accuracy:** **77.33%**
+
+---
+**Result:** This **14.66 percentage point increase** in accuracy—a **23% relative improvement**—proves that a character's narrative context is a far better predictor of their alignment than their physical attributes alone.
+---
 
 ## Process Workflow
-1. **Data Loading & Initial Cleaning**  
-   * Loaded the raw CSV with Pandas.  
-   * Converted custom missing values (`-` and `-99`) into `NaN` using the `na_values` parameter.  
+The project followed these key steps:
 
-2. **Data Preprocessing**  
-   * Filtered the dataset to only include characters from *Marvel Comics*.  
-   * Filled missing `Height` and `Weight` values with the median.  
-   * Cleaned the target variable (`Alignment`) by removing rows with missing values and dropping the *neutral* class to make it a binary problem.  
-   * Converted `Alignment` into numeric values: `good = 1`, `bad = 0`.  
+1.  **Data Loading & Initial Cleaning**
+    *   Loaded the raw CSV from Kaggle with Pandas.
+    *   Handled custom missing values (`-`, `-99`) during import using `na_values`.
 
-3. **Model Training & Evaluation**  
-   * Split the data into 80% training and 20% testing sets.  
-   * Trained a Logistic Regression model.  
-   * Evaluated performance on the test set.  
+2.  **Data Preprocessing**
+    *   Filtered the dataset to only include characters from *Marvel Comics*.
+    *   Imputed missing `Height` and `Weight` values using the median.
+    *   Cleaned the `Alignment` column by removing `neutral` values and converting `good`/`bad` to `1`/`0`.
+
+3.  **Baseline Model Training & Evaluation**
+    *   Trained a Logistic Regression model using only the `Height` and `Weight` features.
+    *   Established the baseline performance at **62.67% accuracy**.
+
+4.  **Feature Engineering with Wikipedia**
+    *   Scraped the first two sentences of each character's biography using the Wikipedia API.
+    *   Engineered two new features: `Hero_Score` and `Villain_Score`, by counting the occurrences of predefined hero/villain keywords in the text.
+
+5.  **Final Model Training & Evaluation**
+    *   Trained a new Logistic Regression model using the original physical stats **plus** the new text-based scores.
+    *   Achieved a final, improved accuracy of **77.33%**.
 
 ## Key Challenges & Learnings
-* **`SettingWithCopyWarning`**: Solved this by using `.copy()` after filtering, avoiding unstable modifications.  
-* **Data Type Issues**: Learned to make sure numeric data is truly numeric before running operations like `median()`.  
-* **Target Variable Cleaning**: Discovered the model can’t train if `y` has `NaN` values — another reminder of why thorough cleaning matters.  
-
-## Results
-The baseline Logistic Regression model scored **62.67% accuracy** on the test set. That suggests physical stats *do* provide some predictive power for character alignment.  
+*   **`SettingWithCopyWarning`**: Learned the importance of using `.copy()` after filtering a DataFrame to ensure stable modifications.
+*   **Web Scraping Robustness**: Implemented `try-except` blocks to handle cases where a character's Wikipedia page could not be found, preventing the scraping process from crashing.
+*   **Data Integrity**: Reinforced the need for thorough data cleaning, as the model cannot train if the target variable (`y`) contains `NaN` values.
 
 ## Future Improvements
-* Add more features (e.g., gender, race) with one-hot encoding.  
-* Try more powerful models like Random Forests to push accuracy further.  
+With a strong feature-engineered model now in place, next steps could include:
+*   **Advanced NLP:** Move beyond keyword counting to use TF-IDF or word embeddings to capture more nuanced information from the biographies.
+*   **More Features:** Properly encode and add other categorical features from the original dataset (e.g., `Gender`, `Race`).
+*   **More Powerful Models:** Experiment with algorithms like Random Forests or Gradient Boosting to see if they can further improve accuracy.
