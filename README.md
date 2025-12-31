@@ -14,9 +14,7 @@ The success of this project is best shown by comparing the baseline model to the
 -   **Features Used:** `Height`, `Weight`, plus `Hero_Score` and `Villain_Score` (engineered from Wikipedia biographies)
 -   **Accuracy:** **77.33%**
 
----
-**Result:** This **14.66 percentage point increase** in accuracy—a **23% relative improvement**—proves that a character's narrative context is a far better predictor of their alignment than their physical attributes alone.
----
+> **Key Result:** By engineering text-based features, model accuracy saw a **23% relative improvement**, proving that a character's narrative context is a far more powerful predictor than their physical stats.
 
 ## Process Workflow
 The project followed these key steps:
